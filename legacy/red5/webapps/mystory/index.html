@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>mystory_recorder</title>
+	<meta name="description" content="" />
+	
+	<script src="js/swfobject.js"></script>
+	<script>
+	
+		var onStateChange = function(newState) {
+			console.log("onStateChange: ", newState);
+		}
+		var onTimeChange = function(event) {
+			console.log("onTimeChange: ", event);
+			document.getElementById('time').value = event.currentCount;
+		}
+		var onCameraChange = function(event) {
+			console.log("onCameraChange: ", event);
+		}
+		var onRecordingStatus = function(mic, camera) {
+			document.getElementById('mic').value = mic.activityLevel;
+			if(camera) {
+			document.getElementById('frames').value = camera.currentFPS;
+			document.getElementById('act').value = camera.activityLevel;
+			}
+		}
+		var flashRecorder = null;
+		
+		var onFlashEmbedded = function(event) {
+			console.log("onFlashEmbedded: ", event);
+			flashRecorder = event.ref;
+		}
+		
+		var startRecording = function() {
+			document.getElementById('time').value = 0;
+			var filename = document.getElementById('filename').value;
+			if(!filename) {
+				alert("Please enter a Filename");
+				return;
+			}
+			flashRecorder.startRecording(filename);
+		}
+		var stopRecording = function() {
+			flashRecorder.stopRecording();
+		}
+		var flashvars = {
+			serverURL: "rtmp://kis2.bossdev.org/mystory/"
+		};
+		var params = {
+			menu: "false",
+			scale: "noScale",
+			allowFullscreen: "true",
+			allowScriptAccess: "always",
+			bgcolor: "",
+			wmode: "direct" // can cause issues with FP settings & webcam
+		};
+		var attributes = {
+			id:"mystoryrecorder"
+		};
+		swfobject.embedSWF(
+			"mystoryrecorder.swf", 
+			"altContent", "800px", "600px", "10.0.0", 
+			"expressInstall.swf", 
+			flashvars, params, attributes, onFlashEmbedded);
+	</script>
+	<style>
+		html, body { height:100%; overflow:hidden; }
+		body { margin:0; }
+	</style>
+</head>
+<body>
+	<div id="altContent">
+		<h1>mystory_recorder</h1>
+		<p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+	</div>
+	<br/>
+	<a onClick="startRecording();">[start]</a> <input type="text" id="filename" value="myfile_00" /><br/>
+	<input type="text" id="time"/> <a onClick="stopRecording();">[stop]</a><br/>
+	Mic Level: <input type="text" id="mic"/> <br/>
+	Current Frames: <input type="text" id="frames"/> <br/>
+	Current Activity: <input type="text" id="act"/> <br/>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>mystory_recorder</title>
+	<meta name="description" content="" />
+	<link rel="stylesheet" href="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/css/style.css" media="all" />
+	<link rel="stylesheet" href="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/css/user.css" media="all" />	
+	<script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/js/modernizr.js"></script>
+	
+	
+	<script>
+		(function( $ ) {
+			
+			$.fn.videoIOControlsDefaults = {};
+			var init = function(movie, options) {
+				console.log("Juhuu, the flash is ready!!!!");
+				$.each(options, function(property, value){
+					if(property !== 'defaults') {
+						movie.setProperty(property, value);
+					} else {
+						$.fn.videoIOControlsDefaults = value;
+					}
+				});
+		    	console.log("setting parameters");
+			};
+		  	$.fn.videoIOControls = function(options) {
+				if(options===undefined) {
+					options = {};
+				}
+			    console.log("Welcome to the VideoIO Controls");
+			    // ok, lets find the configuration
+			    this.inputElements = $("input [data-property]");
+			    this.actionElements = $("button [data-property]");
+			    this.outputElements = $(".property [data-property]");
+			    // lets wait until the object is ready
+			    var movie = this[0];
+			    var checkForReadyness = setInterval(function(){
+					if(typeof movie.setProperty === 'function') {
+						clearInterval(checkForReadyness);
+						console.log("READY");
+						init(movie, options);
+					} else {
+						console.log("not ready yet");
+					}
+				},100);
+			};
+		    // 
+		})( jQuery );
+	
+		var onFlashEmbeddingComplete = function(event) {
+			$(event.ref).videoIOControls({
+				mirrored: true,
+				cameraQuality: 90,
+				cameraDimension: "720x480",
+				cameraFPS: 30,
+				live: true,
+				controls: true,
+				defaults: {
+					baseUrl:"rtmp://localhost/record", 
+				}
+			});
+		}
+		
+		var flashvars = {
+			
+		};
+		var params = {
+			allowFullscreen: "true",
+			allowScriptAccess: "always",
+			bgcolor: "#000000",
+			quality: "high",
+		};
+		var attributes = {
+			id:"mystoryrecorder"
+		};
+		swfobject.embedSWF(
+			"VideoIO.swf", 
+			"mystoryrecorder_container", "720px", "480px", "10.0.0", 
+			"expressInstall.swf", 
+			flashvars, params, attributes, onFlashEmbeddingComplete);
+	</script>
+	<style>
+		html, body { height:100%; overflow:hidden; }
+		body { margin:0; }
+	</style>
+</head>
+<body>
+	<div id="mystoryrecorder_container">
+		<h1>mystory_recorder</h1>
+		<p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+	</div>
+	<br/>
+	<input id="src1" type="text"
+    value="rtmp://kis2.bossdev.org/record?publish=file1&record=true"/>
+<input value="record" type="button" 
+    onclick="getFlashMovie('mystoryrecorder').setProperty('src', 
+        document.getElementById('src1').value)"/>
+<input value="stop" type="button" 
+    onclick="getFlashMovie('mystoryrecorder').setProperty('src', null)"/>
+    
+    <input id="src2" type="text"
+    value="rtmp://kis2.bossdev.org/record?play=file1"/>
+<input value="play" type="button" 
+    onclick="getFlashMovie('mystoryrecorder').setProperty('src', 
+        document.getElementById('src2').value)"/>
+<input value="stop" type="button" 
+    onclick="getFlashMovie('mystoryrecorder').setProperty('src', null)"/>
+</body>
+</html>
