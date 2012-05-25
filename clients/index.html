@@ -7,15 +7,53 @@
 	<link rel="stylesheet" href="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/css/style.css" media="all" />
 	<link rel="stylesheet" href="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/css/user.css" media="all" />	
 	<script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script src="js/AC_OETags.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/js/modernizr.js"></script>
 	
 	
 	<script>
-  function onCreationComplete(e) {
+ 
+	</script>
+	<style>
+		html, body {  }
+		body { }
+    .overlay {position:relative;background:white;}
+    .columns {position:relative}
+	</style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="overlay">
+      <h1>Record your video!</h1>
+      <p>Would you like to have some help on recording your video? We could give you so small sweet how to's! Just click here!</p>
+      <div class="columns">
+        <div id="flash_recorder" class="main-column left">
+          
+          <div id="mystoryrecorder_container">
+            <h1>Oh no, you have no Flash :-(</h1>
+            <p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+          </div>
+          
+	<script language="JavaScript" type="text/javascript">
+	<!--
+	 function onCreationComplete(e) {
     console.log("onCreationComplete",e);
+	var filename = "test-red5-" +(new Date()).getTime();
+			$("#"+e.objectID).videoIOControls({
+				mirrored: true,
+				cameraQuality: 90,
+				cameraDimension: "720x480",
+				cameraFPS: 30,
+				live: true,
+				controls: true,
+				defaults: {
+					baseUrl:"rtmp://kis2.bossdev.org/record", 
+          filename: filename
+				}
+			});
   };
-   function onPropertyChange(e) {
+   function onPropertyChange(event) {
           console.log("onPropertyChange",e);
     };
     
@@ -119,14 +157,16 @@
 			quality: "high",
 		};
 		var attributes = {
-			id:"mystoryrecorder"
+			id:"mystoryrecorder",
+			name:"mystoryrecorder"
 		};
+		/*
 		swfobject.embedSWF(
 			"VideoIO11.swf", 
 			"mystoryrecorder_container", "620px", "410px", "10.0.0", 
 			"expressInstall.swf", 
-			flashvars, params, attributes, onFlashEmbeddingComplete);
-      
+			flashvars, params, attributes);
+      */
 function onPropertyChange(event) {
     var obj = document.getElementById(event.property);
     if (obj) {
@@ -158,27 +198,52 @@ function onShowingSettings(event) {
 	log("onShowingSettings() showing=" + event.showing);
 }
 
+	var hasProductInstall = DetectFlashVer(6, 0, 65);
+	var hasVersion10 = DetectFlashVer(10, 0, 0);
+	var hasVersion10_3 = DetectFlashVer(10, 3, 0);
+	var hasVersion11 = DetectFlashVer(11, 0, 0);
+	
+	if (hasProductInstall && !hasVersion10) {
+		var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
+		var MMredirectURL = window.location;
+	    document.title = document.title.slice(0, 47) + " - Flash Player Installation";
+	    var MMdoctitle = document.title;
+	
+		AC_FL_RunContent(
+			"src", "playerProductInstall",
+			"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"",
+			"width", "620",
+			"height", "410",
+			"id", "mystoryrecorder1",
+			"quality", "high",
+			"bgcolor", "#000000",
+			"name", "mystoryrecorder1",
+			"allowScriptAccess","always",
+			"type", "application/x-shockwave-flash",
+			"pluginspage", "http://www.adobe.com/go/getflashplayer"
+		);
+	} else if (hasVersion10) {
+		AC_FL_RunContent(
+				"src", (hasVersion11 ? "VideoIO11" : (hasVersion10_3 ? "VideoIO45" : "VideoIO")),
+				"width", "620",
+				"height", "410",
+				"id", "mystoryrecorder1",
+				"quality", "high",
+				"bgcolor", "#000000",
+				"name", "mystoryrecorder1",
+				"allowScriptAccess","always",
+				"allowFullScreen","true",
+				"type", "application/x-shockwave-flash",
+				"pluginspage", "http://www.adobe.com/go/getflashplayer"
+		);
+	  } else {
+	    var alternateContent = 'This content requires the Adobe Flash Player. '
+	   	+ '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
+	    document.write(alternateContent);
+	  }
+	// -->
 	</script>
-	<style>
-		html, body {  }
-		body { }
-    .overlay {position:relative;background:white;}
-    .columns {position:relative}
-	</style>
-</head>
-<body>
-  <div class="wrapper">
-    <div class="overlay">
-      <h1>Record your video!</h1>
-      <p>Would you like to have some help on recording your video? We could give you so small sweet how to's! Just click here!</p>
-      <div class="columns">
-        <div id="flash_recorder" class="main-column left">
-          
-          <div id="mystoryrecorder_container">
-            <h1>Oh no, you have no Flash :-(</h1>
-            <p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
-          </div>
-          
+	
           <ul class="commands">
             <li><button data-videoio="record">Record</button></li>
             <li><button data-videoio="play">Play</button></li>
