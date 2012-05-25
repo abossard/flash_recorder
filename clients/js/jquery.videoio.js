@@ -34,7 +34,7 @@
                break;
                case "playing":
                if(value) {
-                   movie.enableControls(['stop','pause','cancel']);                   
+                   movie.enableControls(['stop','pause','save','cancel']);                   
                } else {
                    movie.enableControls(['record','play','save','delete','cancel']);
                }

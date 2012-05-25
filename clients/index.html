@@ -21,13 +21,13 @@ body { }
         window.onCreationComplete = function(event) {
             var filename = "test-red5-" +(new Date()).getTime();
 	    $("#"+event.objectID).videoIOSetup({
-		cameraQuality: 75,
-		cameraDimension: "620x410",
+		cameraQuality: 90,
+		cameraDimension: "720x480",
 		cameraFPS: 30,
 		live: true,
-		controls: false,
+		controls: true,
 		defaults: {
-		    baseUrl:"rtmp://kis2.bossdev.org/record", 
+		    baseUrl: "rtmp://kis2.bossdev.org/record", 
                     streamBaseUrl: "http://kis2.bossdev.org/streams/", 
 		    filename: filename,
                     maxLength: 300,
@@ -83,7 +83,7 @@ body { }
 		);
 	} else if (hasVersion10) {
 		AC_FL_RunContent(
-				"src", (hasVersion11 ? "VideoIO11" : (hasVersion10_3 ? "VideoIO45" : "VideoIO")),
+				"src", (hasVersion11 ? "swf/VideoIO11" : (hasVersion10_3 ? "swf/VideoIO45" : "swf/VideoIO")),
 				"width", "620",
 				"height", "410",
 				"align", "middle",
