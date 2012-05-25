@@ -104,18 +104,18 @@ function isEnter(e) {
 }
 
 function setString(propertyName, inputName) {
-    var obj = getFlashMovie("video1");
+    var obj = getFlashMovie("mystoryrecorder");
     obj.setProperty(propertyName, document.getElementById(inputName).value);
     return false;
 }
 
 function setBool(propertyName, inputName) {
-    var obj = getFlashMovie("video1");
+    var obj = getFlashMovie("mystoryrecorder");
     obj.setProperty(propertyName, document.getElementById(inputName).checked);
 }
 
 function setNumber(propertyName, inputName) {
-    var obj = getFlashMovie("video1");
+    var obj = getFlashMovie("mystoryrecorder");
     obj.setProperty(propertyName, parseFloat(document.getElementById(inputName).value));
     return false;
 }
@@ -132,7 +132,7 @@ function str2object(value) {
 }
 
 function callMethod(inputName) {
-    var obj = getFlashMovie("video1");
+    var obj = getFlashMovie("mystoryrecorder");
     value = document.getElementById(inputName).value;
     r = /^(\w+)\((true|false|[\.\d]+|"[^"]*")?((\s*,\s*(true|false|[\.\d]+|"[^"]*"))*)\)$/g;
     m = r.exec(value);
@@ -183,7 +183,7 @@ function onCreationComplete(event) {
 			filename: filename
 		}
 	});
-    var obj = getFlashMovie("video1");
+    var obj = getFlashMovie("mystoryrecorder");
     var props = {
         'preload':'boolean','autoplay':'boolean','loop':'boolean','controls':'boolean',
         'url':'string','play':'string','publish':'string','group':'string',
@@ -246,7 +246,7 @@ function onShowingSettings(event) {
 }
 
 function help(name) {
-    var obj = getFlashMovie("video1");
+    var obj = getFlashMovie("mystoryrecorder");
     if (obj) {
         data = obj.getProperty('__doc__' + name);
         log(data)
@@ -297,10 +297,10 @@ function help(name) {
 			"width", "620",
 			"height", "410",
 			"align", "middle",
-			"id", "video1",
+			"id", "mystoryrecorder",
 			"quality", "high",
 			"bgcolor", "#000000",
-			"name", "video1",
+			"name", "mystoryrecorder",
 			"allowScriptAccess","always",
 			"type", "application/x-shockwave-flash",
 			"pluginspage", "http://www.adobe.com/go/getflashplayer"
@@ -311,10 +311,10 @@ function help(name) {
 				"width", "620",
 				"height", "410",
 				"align", "middle",
-				"id", "video1",
+				"id", "mystoryrecorder",
 				"quality", "high",
 				"bgcolor", "#000000",
-				"name", "video1",
+				"name", "mystoryrecorder",
 				"allowScriptAccess","always",
 				"allowFullScreen","true",
 				"type", "application/x-shockwave-flash",
