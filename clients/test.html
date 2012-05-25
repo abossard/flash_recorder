@@ -1,97 +1,22 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Video Component Demo</title>
-<script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-	<script src="js/AC_OETags.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script src="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/js/modernizr.js"></script>
-	<title>mystory_recorder</title>
-	<meta name="description" content="" />
-	<link rel="stylesheet" href="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/css/style.css" media="all" />
-	<link rel="stylesheet" href="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/css/user.css" media="all" />	
-	
+<title>mystory recorder</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/js/modernizr.js"></script>
+<script src="js/AC_OETags.js"></script>
+<script src="js/jquery.videoio.js"></script>
+<link rel="stylesheet" href="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/css/style.css" media="all" />
+<link rel="stylesheet" href="http://mystory.dev.jesus.net/wp-content/themes/mystory/static/css/user.css" media="all" />	
 <style type="text/css">
-		html, body {  }
-		body { }
-    .overlay {position:relative;background:white;}
-    .columns {position:relative}
-	
+html, body {  }
+body { }
+.overlay {position:relative;background:white;}
+.columns {position:relative}
 </style>
 
 <script type="text/javascript">
-(function ($) {
-
-    $.fn.videoIOControlsDefaults = {};
-    var init = function (movie, options) {
-            console.log("Juhuu, the flash is ready!!!!");
-            $.each(options, function (property, value) {
-                if (property !== 'defaults') {
-                    movie.setProperty(property, value);
-                } else {
-                    movie.defaults = value;
-                }
-            });
-            console.log("setting parameters");
-
-
-        };
-    var initControls = function (movie) {
-            console.log("initControls");
-            $("button[data-videoio]").each(function (index) {
-                var el = $(this);
-                var type = el.data("videoio");
-                movie.controls = {};
-                movie.controls[type] = el;
-                switch (type) {
-                case "play":
-                    el.click(function (e) {
-                        console.log("play", movie.defaults.baseUrl + "?play=" + movie.defaults.filename);
-                        movie.setProperty("src", movie.defaults.baseUrl + "?play=" + movie.defaults.filename);
-                    });
-                    break;
-                case "record":
-                    el.click(function (e) {
-                        console.log("record", movie.defaults.baseUrl + "?publish=" + movie.defaults.filename + "&record=true");
-                        movie.setProperty("src", movie.defaults.baseUrl + "?publish=" + movie.defaults.filename + "&record=true");
-                    });
-                    break;
-                case "stop":
-                    el.click(function (e) {
-                        console.log("stop", null);
-                        movie.setProperty("src", null);
-                    });
-                    break;
-                };
-                console.log("found type: " + type);
-            });
-        };
-    $.fn.videoIOControls = function (options) {
-        if (options === undefined) {
-            options = {};
-        }
-        console.log("Welcome to the VideoIO Controls");
-        // ok, lets find the configuration
-        this.inputElements = $("input [data-property]");
-        this.actionElements = $("button [data-videoio]");
-        this.outputElements = $(".property [data-property]");
-        // lets wait until the object is ready
-        var movie = this[0];
-        var checkForReadyness = setInterval(function () {
-            if (typeof movie.setProperty === 'function') {
-                clearInterval(checkForReadyness);
-                console.log("READY");
-                init(movie, options);
-                initControls(movie);
-            } else {
-                console.log("not ready yet");
-            }
-        }, 100);
-    };
-
-
-    // 
-})(jQuery);
 	
 function getFlashMovie(movieName) {
     var isIE = navigator.appName.indexOf("Microsoft") != -1;
@@ -163,7 +88,7 @@ function callMethod(inputName) {
 }
 
 function log(msg) {
-	console.log(msg);
+console.log(msg);
     var logObj = document.getElementById("log");
     logObj.value = msg + (logObj.value ? "\n" + logObj.value : "");
 }
@@ -215,6 +140,7 @@ function onCreationComplete(event) {
 }
 
 function onPropertyChange(event) {
+    console.log(event)
     var obj = document.getElementById(event.property);
     if (obj) {
         if (typeof(event.newValue) == "boolean")
