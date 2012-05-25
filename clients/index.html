@@ -18,24 +18,21 @@ body { }
 
 <script type="text/javascript">
 <!--
-
-function onCreationComplete(event) {
-    var filename = "test-red5-" +(new Date()).getTime();
-	$("#"+event.objectID).videoIOControls({
-		mirrored: true,
-		cameraQuality: 90,
+        window.onCreationComplete = function(event) {
+            var filename = "test-red5-" +(new Date()).getTime();
+	    $("#"+event.objectID).videoIOSetup({
+		cameraQuality: 80,
 		cameraDimension: "720x480",
 		cameraFPS: 30,
 		live: true,
 		controls: true,
 		defaults: {
-			baseUrl:"rtmp://kis2.bossdev.org/record", 
-			filename: filename
+		    baseUrl:"rtmp://kis2.bossdev.org/record", 
+		    filename: filename,
+                    maxLength: 300
 		}
-	});
-}
-
-
+	    });
+        };
 -->
 </script>
 
@@ -102,13 +99,15 @@ function onCreationComplete(event) {
 	
           <ul class="commands">
             <li><button data-videoio="record">Record</button></li>
-            <li><button data-videoio="play">Play</button></li>
-            <li><button data-videoio="pause">Pause</button></li>
-            <li><button data-videoio="backward">&lt;&lt;</button></li>
-            <li><button data-videoio="forward">&gt;&gt;</button></li>
-            <li><button data-videoio="stop">Stop</button></li>
-            <li><button data-videoio="delete">Delete</button></li>
-            <li><button data-videoio="save">Save</button></li>
+            <li><button data-videoio="play" disabled=disabled>Play</button></li>
+            <!--
+            <li><button data-videoio="pause" disabled=disabled>Pause</button></li>
+            <li><button data-videoio="backward" disabled=disabled>&lt;&lt;</button></li>
+            <li><button data-videoio="forward" disabled=disabled>&gt;&gt;</button></li>
+            -->
+            <li><button data-videoio="stop" disabled=disabled>Stop</button></li>
+            <li><button data-videoio="cancel">Cancel</button></li>
+            <li><button data-videoio="save" disabled=disabled>Save</button></li>
           </ul>
         </div>
         <div id="timeline" class="side ">
@@ -125,7 +124,9 @@ function onCreationComplete(event) {
           </ul>
         </div>
         <div class="debugpanel">
-          currentFPS: <span data-videoio-property="currentFPS"/>
+          currentFPS: <span data-videoio-property="currentFPS">0</span>
+          currentTime: <span data-videoio-property="currentTime">0</span>
+          duration: <span data-videoio-property="duration">0</span>
         </div>
       </div>
     </div>
