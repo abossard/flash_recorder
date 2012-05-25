@@ -158,6 +158,26 @@
                             movie[0].setProperty("live", true);
                         });
                     break;
+                case "save":
+                    el.click(
+                        function(event){
+                            if(typeof movie.defaults.onComplete === 'function') {
+                                var streamUrl = movie.defaults.streamBaseUrl + movie.defaults.filename +".flv";
+                                console.log("save",streamUrl);
+                                movie.defaults.onComplete(streamUrl);
+                            }
+                        });
+                    break;
+                case "cancel":
+                    el.click(
+                        function(event){
+                            if(typeof movie.defaults.onCancel === 'function') {
+                                console.log("cancel");
+                                movie[0].setProperty("src", null);
+                                movie[0].setProperty("live", true);
+                                movie.defaults.onCancel();
+                            }                            
+                        });
                 };
                 console.log("found type: " + type);
             });

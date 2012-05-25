@@ -17,23 +17,30 @@ body { }
 </style>
 
 <script type="text/javascript">
-<!--
+//<!--
         window.onCreationComplete = function(event) {
             var filename = "test-red5-" +(new Date()).getTime();
 	    $("#"+event.objectID).videoIOSetup({
-		cameraQuality: 80,
-		cameraDimension: "720x480",
+		cameraQuality: 75,
+		cameraDimension: "620x410",
 		cameraFPS: 30,
 		live: true,
-		controls: true,
+		controls: false,
 		defaults: {
 		    baseUrl:"rtmp://kis2.bossdev.org/record", 
+                    streamBaseUrl: "http://kis2.bossdev.org/streams/", 
 		    filename: filename,
-                    maxLength: 300
+                    maxLength: 300,
+                    onComplete: function(streamUrl) {
+                                  alert("Stream available at: "+streamUrl);
+                              },
+                    onCancel:  function(streamUrl) {
+                                  alert("Cancelled");
+                              }
 		}
 	    });
         };
--->
+//-->
 </script>
 
 
@@ -127,6 +134,8 @@ body { }
           currentFPS: <span data-videoio-property="currentFPS">0</span>
           currentTime: <span data-videoio-property="currentTime">0</span>
           duration: <span data-videoio-property="duration">0</span>
+          bandwidth: <span data-videoio-property="bandwidth">0</span>
+          level: <span data-videoio-property="level">0</span>
         </div>
       </div>
     </div>
