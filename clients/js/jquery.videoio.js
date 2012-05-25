@@ -12,6 +12,22 @@
                       });
            }
         };
+        window.callMethod = function(inputName) {
+            console.log("callMethod", inputName);
+        };
+        window.onCallback = function(event) {
+            console.log("onCallback", event);
+        };
+        window.onPostingNotify = function(event) {
+            console.log("onPostingNotify", event);
+        };
+        window.onReceiveData = function(event) {
+            console.log("onReceiveData", event);
+        };
+        window.onShowingSettings = function(event) {
+            console.log("onShowingSettings", event);
+        };
+
     };
     registerGlobalHandlers();
 
@@ -66,7 +82,6 @@
                         movie.propertyElements[type] = [];
                     }
                     movie.propertyElements[type].push(el);
-                    console.log(movie.propertyElements);
                 });
 
             $("button[data-videoio]").each(function (index) {
