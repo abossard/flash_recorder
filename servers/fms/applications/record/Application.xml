@@ -6,16 +6,12 @@
 		</VirtualDirectory>
 
 	</StreamManager>
-
-
 	<!-- Settings specific to runtime script engine memory -->
 	<ScriptEngine>
 		<!-- This specifies the max size (Kb.) the runtime can grow to before -->
 		<!-- garbage collection is performed.                                 -->
 		<RuntimeSize>20480</RuntimeSize>
 	</ScriptEngine>
-
-	
 	<Client>
 		<Bandwidth>
 			<!-- Specified in bytes/sec -->
@@ -44,9 +40,5 @@
 			</Server>
 		</MsgQueue> 
 	</Client>
-
-
-
-
 
 </Application>
